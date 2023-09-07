@@ -38,9 +38,9 @@ class DocumentController extends Controller
         for ($i = 0; $i < count($validated['invoices']); $i++) {
             $invoice = [
                 'name' => $validated['invoices'][$i],
-                'description' => $validated['invoice_description'],
-                'category' => $validated['invoice_category'],
-                'fee' => $validated['invoice_fee']
+                'description' => $validated['invoice_description'][$i],
+                'category' => $validated['invoice_category'][$i],
+                'fee' => $validated['invoice_fee'][$i]
             ];
         
             $invoicesData[] = $invoice;
@@ -128,24 +128,28 @@ class DocumentController extends Controller
     {
         $validated = $req->validate([
             'project_id' => 'nullable|string',
+            'kwitansi_id' => 'nullable|string',
             'invoice_id' => 'nullable|string',
             'nama_pemberi' => 'required|string',
             'pembayaran' => 'required|string',
             'nominal' => 'required|string',
             'catatan' => 'required|array'
         ]);
+        // dd($req);
         $invoice = new Invoice;
-        $invoice = $invoice->where('invoice_id', '=', $validated['invoice_id'])->first();
+        $invoice = $invoice->where('invoice_id', $validated['invoice_id'])->first();
         if($invoice){
             $invoice_id = $invoice->id;
+            $project_id = $invoice->project_i;
         } else {
             $invoice_id = 'NOT SET';
+            $project_id = 'NOT SET';
         }
         $validated['nominal'] = (int) $validated['nominal'];
         Kwitansi::create([
-            'project_id'=> $validated['project_id'],
+            'project_id'=> $project_id,
             'kwitansi_id'=> $validated['kwitansi_id'],
-            'invoice_id'=> $invoice_id,
+            'invoice_id'=> $validated['invoice_id'],
             'user_id'=> auth()->user()->id,
             'nama_pemberi' => $validated['nama_pemberi'],
             'nominal' => $validated['nominal'],

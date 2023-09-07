@@ -230,27 +230,29 @@
                 @php $n = 1;
                 $amount = 0;
                 $i = 0;
-                foreach (json_decode($data['invoices']) as $invoice): @endphp
+                $invoices = json_decode($data['invoices']);
+                // dd($invoices);
+                foreach ($invoices as $invoice1): @endphp
                     <tr style="height:18pt">
                         <td style="width:43pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt">
                             <p class="s2" style="padding-left: 1pt;text-indent: 0pt;text-align: center;">{{$n}}</p>
                         </td>
                         <td style="width:122pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt">
-                            <p class="s2" style="padding-left: 1pt;text-indent: 0pt;text-align: left;">{{$invoice->name}}</p>
+                            <p class="s2" style="padding-left: 1pt;text-indent: 0pt;text-align: left;">{{$invoice1->name}}</p>
                         </td>
                         <td style="width:139pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt">
                             <p class="s2" style="padding-left: 19pt;padding-right: 19pt;text-indent: 0pt;text-align: center;">
-                                <?php echo $invoice->description ?></p>
+                                <?php echo $invoice1->description ?></p>
                         </td>
                         <td style="width:112pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt">
-                            <p class="s2" style="padding-left: 9pt;text-indent: 0pt;text-align: left;">{{$invoice->category}}</p>
+                            <p class="s2" style="padding-left: 9pt;text-indent: 0pt;text-align: left;">{{$invoice1->category}}</p>
                         </td>
                         <td style="width:86pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-right-style:solid;border-right-width:1pt" bgcolor="#F1F1F1">
-                            <p class="s2" style="padding-left: 1pt;text-indent: 0pt;text-align: left;">Rp {{$invoice->fee}}</p>
+                            <p class="s2" style="padding-left: 1pt;text-indent: 0pt;text-align: left;">Rp {{$invoice1->fee}}</p>
                         </td>
                     </tr>
                 @php $n++;$i++;
-                    $amount += $invoice->fee;
+                    $amount += $invoice1->fee;
                 endforeach; @endphp
                 <tr style="height:16pt">
                     <td style="width:304pt;border-right-style:solid;border-right-width:1pt" colspan="3" bgcolor="#585858">
